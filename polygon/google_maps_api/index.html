@@ -63,7 +63,7 @@ function mapdraw(json) {
 		//オーバーレイ設定
 		var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
 		var svg = layer.append("svg");
-		var gunmalayer = svg.append("g").attr("class", "AdminDivisions");
+		var layergroup = svg.append("g").attr("class", "d3maplayear");
 		var markerOverlay = this;
 		var overlayProjection = markerOverlay.getProjection();
 
@@ -81,7 +81,7 @@ function mapdraw(json) {
 		overlay.draw = function () {
 						
 			//地図描く
-			gunmalayer.selectAll("path")
+			layergroup.selectAll("path")
 				.data(feature)
 				.attr("d", path) 
 				.enter()
