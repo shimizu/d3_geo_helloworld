@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>D3 Map Hello World sample</title>
+<link rel="stylesheet" href="http://shimz.me/libs/jquery-tipr/tipr/tipr.css" >
+</head>
+<body>
+
+
+<script src="../../d3.v3.min.js"></script>
+<script src="../../topojson.v1.min.js"></script>
+<script>
+//ポリゴンデータ読み込み
+d3.json("../data/world.geojson", function(json) {
+    mapdraw(json);
+});
+ 
+function mapdraw(json){
+    var width = 960;
+    var height = 480;
+	
+	//地形データ取得	
+	if (json.type === "Topology"){
+		//読み込みファイルがtopojsonの場合
+		var feature = topojson.feature(json, json.objects.world).features;	
+	} else {
+		var feature = json.features;		
+	}
+	 
+    //投影法設定
+    var projection = d3.geo.equirectangular()
+		.scale(180) //地図のサイズ
+		.rotate([0,0,0]) //地図の回転 [x軸, y軸, z軸]
+		.center([0.0, 0.0]) //中止地[lng, lat]
+ 
+    //パスジェネレーター
+    var path = d3.geo.path().projection(projection);
+
+	
+	//svg要素生成 
+    var svg = d3.select("body").append('svg')
+		.attr("width", width)
+		.attr("height", height);
+
+	//地形の描画
+	var land = svg.selectAll('.land')
+		.data(feature)
+		.enter()
+		.append('path')
+		.attr({
+			"d": path,
+			"stroke": "white",
+			"fill": "#ccc"
+		});
+
+ 
+ 
+       
+}
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27276322-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script> 
+</body>
+</html>
