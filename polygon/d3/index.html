@@ -21,7 +21,7 @@ function mapdraw(json){
 	
 	//地形データ取得	
 	if (json.type === "Topology"){
-		//読み込みファイルがtopojsonの場合
+		//読み込みファイルがtopojsonの場合(json.objects.△△)　「△△」は変換時のgeojsonファイル名に合わせる
 		var feature = topojson.feature(json, json.objects.world).features;	
 	} else {
 		var feature = json.features;		
