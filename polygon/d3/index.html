@@ -11,7 +11,7 @@
 <script src="../../topojson.v1.min.js"></script>
 <script>
 //ポリゴンデータ読み込み
-d3.json("../data/world.geojson", function(json) {
+d3.json("../_data/world.geojson", function(json) {
     mapdraw(json);
 });
  
@@ -50,7 +50,7 @@ function mapdraw(json){
 		.attr({
 			"d": path,
 			"stroke": "white",
-			"fill": "#ccc"
+			"fill": "red"
 		});
 
  

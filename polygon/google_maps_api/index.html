@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>D3.js 群馬県SVG&Google MAP</title>
+<title>D3 Google Maps API sample</title>
 <style type="text/css">
 #map {
 	width: 960px;
@@ -35,7 +35,7 @@
 <script src="../../topojson.v1.min.js"></script>
 
 <script>
-d3.json("../data/ken.geojson", function(json) {
+d3.json("../_data/ken.geojson", function(json) {
 	mapdraw(json);
 });
 
@@ -89,7 +89,7 @@ function mapdraw(json) {
 				.attr({
 					"d": path,
 					"stroke": "white",
-					"fill": "#ccc",
+					"fill": "red",
 					"fill-opacity": 0.7
 				})
 		

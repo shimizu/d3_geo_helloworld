@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>D3 leaflet sample</title>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
 <style>
 #map {
@@ -18,7 +18,7 @@
 <script src="../../topojson.v1.min.js"></script>
 
 <script>
-d3.json("../data/ken.geojson", function(json) {
+d3.json("../_data/ken.geojson", function(json) {
 	mapdraw(json)
 });
 
@@ -76,7 +76,7 @@ function mapdraw(geojson){
 			.attr({
 					"d": path,
 					"stroke": "white",
-					"fill": "#ccc",
+					"fill": "red",
 					"fill-opacity": 0.7
 			});
 	} 
