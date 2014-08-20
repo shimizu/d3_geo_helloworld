@@ -22,7 +22,18 @@ d3.json("../_data/ken.geojson", function(json) {
 	mapdraw(json)
 });
 
-function mapdraw(geojson){
+function mapdraw(json){
+
+	//地形データ取得	
+	if (json.type === "Topology"){
+		//読み込みファイルがtopojsonの場合(json.objects.△△)　「△△」は変換時のgeojsonファイル名に合わせる
+		json = topojson.feature(json, json.objects.ken)
+		var geojson = json;	
+	} else {
+		var geojson = json;		
+	}
+
+
 	//Leaflet初期設定
 	var map = L.map('map').setView([39.702053　, 141.15448379999998], 5);
 	var mapLink = '<a target="_blank" href="http://portal.cyberjapan.jp/help/termsofuse.html">国土地理院 地理院地図 標準地図</a>';
