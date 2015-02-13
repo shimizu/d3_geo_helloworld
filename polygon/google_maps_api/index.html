@@ -31,8 +31,7 @@
 
 
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script src="../../d3.v3.min.js"></script>
-<script src="../../topojson.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 
 <script>
 d3.json("../_data/ken.geojson", function(json) {
@@ -56,6 +55,7 @@ function mapdraw(json) {
 			center: new google.maps.LatLng(37.53, 138.06),       
 		});
 
+	console.log("feature", feature);
 		
 	var overlay = new google.maps.OverlayView(); //OverLayオブジェクトの作成
 	overlay.onAdd = function () {
@@ -83,7 +83,7 @@ function mapdraw(json) {
 			//地図描く
 			layergroup.selectAll("path")
 				.data(feature)
-				.attr("d", path) 
+				.attr("d", function(d){console.log("d", d); return path(d) }) 
 				.enter()
 				.append("svg:path")
 				.attr({
