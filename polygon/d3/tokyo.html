@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 <script>
 //ポリゴンデータ読み込み
-d3.json("../_data/world.geojson", function(json) {
+d3.json("../_data/tokyo_light.geojson", function(json) {
     mapdraw(json);
 });
  
@@ -29,9 +29,9 @@ function mapdraw(json){
 	 
     //投影法設定
     var projection = d3.geo.equirectangular()
-		.scale(180) //地図のサイズ
+		.scale(30000) //地図のサイズ
 		.rotate([0,0,0]) //地図の回転 [x軸, y軸, z軸]
-		.center([0.0, 0.0]) //中止地[lng, lat]
+		.center([139.69170639999993,35.6894875]) //中止地[lng, lat]
  
     //パスジェネレーター
     var path = d3.geo.path().projection(projection);
@@ -52,6 +52,9 @@ function mapdraw(json){
 			"stroke": "white",
 			"fill": "red"
 		});
+
+ 
+ 
        
 }
 </script>
