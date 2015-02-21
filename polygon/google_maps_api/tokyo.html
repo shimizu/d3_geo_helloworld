@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>D3 Google Maps API sample</title>
+<style type="text/css">
+#map {
+	width: 960px;
+	height: 480px;
+}
+
+.SvgOverlay {
+	position: relative;
+	width: 500px;
+	height: 500px;           
+}
+
+.SvgOverlay svg {
+	position: absolute;
+	top: -4000px;
+	left: -4000px;
+	width: 8000px;
+	height: 8000px;        
+}
+
+
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+
+<script>
+d3.json("../_data/tokyo_light.geojson", function(json) {
+	mapdraw(json);
+});
+
+function mapdraw(json) {
+
+	//地形データ取得	
+	if (json.type === "Topology"){
+		//読み込みファイルがtopojsonの場合(json.objects.△△)　「△△」は変換時のgeojsonファイル名に合わせる
+		var feature = topojson.feature(json, json.objects.ken).features;	
+	} else {
+		var feature = json.features;		
+	}
+	
+	//Google Map 初期化
+	var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 9,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			center: new google.maps.LatLng(35.6894875, 139.69170639999993),       
+		});
+
+	console.log("feature", feature);
+		
+	var overlay = new google.maps.OverlayView(); //OverLayオブジェクトの作成
+	overlay.onAdd = function () {
+		
+		//オーバーレイ設定
+		var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
+		var svg = layer.append("svg");
+		var layergroup = svg.append("g").attr("class", "d3maplayear");
+		var markerOverlay = this;
+		var overlayProjection = markerOverlay.getProjection();
+
+		//Google Projection作成
+		var googleMapProjection = function (coordinates) {
+			var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
+			var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
+			return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000];
+		}
+
+		//パスジェネレーター作成
+		path = d3.geo.path().projection(googleMapProjection);　
+        
+		//オーバーレイ描画イベント    
+		overlay.draw = function () {
+						
+			//地図描く
+			layergroup.selectAll("path")
+				.data(feature)
+				.attr("d", function(d){console.log("d", d); return path(d) }) 
+				.enter()
+				.append("svg:path")
+				.attr({
+					"d": path,
+					"stroke": "white",
+					"fill": "red",
+					"fill-opacity": 0.7
+				})
+		
+		};
+
+	};
+
+	//作成したSVGを地図にオーバーレイする
+	overlay.setMap(map);
+	
+		
+};
+
+</script>
+</body>
+</html>
